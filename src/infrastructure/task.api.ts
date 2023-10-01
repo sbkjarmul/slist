@@ -3,6 +3,7 @@ import { TaskModel, TaskStatus } from "../models/task.model";
 export interface ITaskAPI {
   fetchAll: () => Promise<TaskModel[]>;
   changeStatus: (id: number, status: TaskStatus) => Promise<TaskModel>;
+  create: (title: string) => Promise<TaskModel>;
 }
 
 const mockTasks: TaskModel[] = [
@@ -50,9 +51,20 @@ const mockTasks: TaskModel[] = [
   },
 ];
 
-class TaskAPI {
+class TaskAPI implements ITaskAPI {
   fetchAll() {
     return Promise.resolve(mockTasks);
+  }
+
+  create(title: string) {
+    const newTask: TaskModel = {
+      id: mockTasks.length + 1,
+      title,
+      description: "",
+      status: TaskStatus.CREATED,
+    };
+    mockTasks.push(newTask);
+    return Promise.resolve(newTask);
   }
 
   changeStatus(id: number, status: TaskStatus) {

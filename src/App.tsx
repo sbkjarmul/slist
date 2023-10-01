@@ -4,7 +4,7 @@ import Tasks from "./pages/Tasks";
 function App() {
   return (
     <div className="app">
-      <Login />
+      {/* <Login /> */}
       <Tasks />
       <figure className="shape-1"></figure>
       <figure className="shape-2"></figure>

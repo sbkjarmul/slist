@@ -8,6 +8,11 @@ class TaskUseCase {
     return tasks;
   }
 
+  async createTask(title: string) {
+    const newTask = await this.taskAPI.create(title);
+    return newTask;
+  }
+
   async markTaskAsDone(id: number) {
     const updatedTask = await this.taskAPI.changeStatus(id, TaskStatus.DONE);
     return updatedTask;
@@ -15,7 +20,6 @@ class TaskUseCase {
 
   async markTaskAsOpened(id: number) {
     const updatedTask = await this.taskAPI.changeStatus(id, TaskStatus.OPEN);
-    console.log(updatedTask);
     return updatedTask;
   }
 }

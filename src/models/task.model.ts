@@ -8,6 +8,12 @@ export interface TaskModel {
 export enum TaskStatus {
   CREATED = "CREATED",
   OPEN = "OPEN",
-  IN_PROGRESS = "IN_PROGRESS",
+  IN_PROGRESS = "IN PROGRESS",
   DONE = "DONE",
+}
+
+export interface ColumnModel {
+  id: number;
+  title: string;
+  tasks: TaskModel[];
 }
