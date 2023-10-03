@@ -115,6 +115,7 @@
   height: 100%;
   width: 100%;
   min-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -138,14 +139,48 @@
 
 .task {
   height: fit-content;
+  min-height: 150px;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   padding: 1rem;
   border-radius: 5px;
   background-color: white;
   cursor: pointer;
+}
+
+.task--is-dragging {
+  border: 2px dashed black;
+  background-color: transparent;
+}
+
+.task__text {
+  font-size: 1rem;
+  width: 100%;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.task__action {
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task__description--edit {
+  width: 100%;
+  height: fit-content;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  resize: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  background-color: #fbf0fb;
 }
 
 .right {
@@ -261,7 +296,7 @@ label {
 
 .button__icon {
   font-size: 2.5rem;
-  color: white;
+  color: rgb(13, 13, 13);
   width: 1.5rem;
 }
 

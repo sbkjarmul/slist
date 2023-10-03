@@ -5,12 +5,10 @@ import taskUseCase from "../usecases/task.usecase";
 import {
   DndContext,
   DragEndEvent,
-  DragMoveEvent,
+  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   PointerSensor,
-  UniqueIdentifier,
-  closestCorners,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -18,33 +16,36 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import PlusIcon from "../icons/PlusIcon";
 import {
   DraggableItemEnum,
-  getCurrentFromDragStartEvent,
+  getColumnFromDragStartEvent,
+  getTaskFromDragStartEvent,
   getTypeFromDragStartEvent,
 } from "../utils/task.utils";
 import { createPortal } from "react-dom";
+import TaskItem from "../components/tasks/TaskItem";
+import { generateID } from "../utils/shared.utils";
 
 const basicColumns = (tasks: TaskModel[]): ColumnModel[] => [
   {
-    id: 1,
+    id: generateID(),
     title: TaskStatus.CREATED,
     tasks: tasks.filter(
       (task: TaskModel) => task.status === TaskStatus.CREATED
     ),
   },
   {
-    id: 2,
+    id: generateID(),
     title: TaskStatus.OPEN,
     tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.OPEN),
   },
   {
-    id: 3,
+    id: generateID(),
     title: TaskStatus.IN_PROGRESS,
     tasks: tasks.filter(
       (task: TaskModel) => task.status === TaskStatus.IN_PROGRESS
     ),
   },
   {
-    id: 4,
+    id: generateID(),
     title: TaskStatus.DONE,
     tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.DONE),
   },
@@ -54,13 +55,12 @@ const Tasks = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
   const [columns, setColumns] = useState<ColumnModel[]>([]);
   const [activeColumn, setActiveColumn] = useState<ColumnModel | null>(null);
+  const [activeTask, setActiveTask] = useState<TaskModel | null>(null);
 
   const columnsIds = useMemo(
     () => columns.map((column) => column.id),
     [columns]
   );
-
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   useEffect(() => {
     taskUseCase.fetchTasks().then((tasks: TaskModel[]) => {
@@ -69,22 +69,40 @@ const Tasks = () => {
     });
   }, [tasks]);
 
-  const onTaskClick = async (task: TaskModel) => {
-    const updatedTask = await taskUseCase.markTaskAsOpened(task.id);
-    updateTasks(updatedTask);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
+
+  const deleteTask = async (taskId: number) => {
+    await taskUseCase.deleteTask(taskId);
+    setTasks(tasks.filter((task) => task.id !== taskId));
   };
 
-  const updateTasks = (updatedTask: TaskModel) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === updatedTask.id ? updatedTask : task
-    );
-    console.log(updatedTasks);
-    setTasks(updatedTasks);
+  const updateTask = async (task: TaskModel) => {
+    await taskUseCase.updateTask(task);
+    setTasks([...tasks]);
   };
 
   const deleteColumn = (columnId: number) => {
-    console.log(columnId);
+    const filteredColumns = columns.filter((column) => column.id !== columnId);
+    setColumns(filteredColumns);
+
+    const columnStatus = columns.find((column) => column.id === columnId)
+      ?.title as TaskStatus;
+
+    setTasks((tasks) => {
+      const filteredTasks = tasks.filter((task) => {
+        return task.status !== columnStatus;
+      });
+
+      return filteredTasks;
+    });
   };
+
   const updateColumn = (columnId: number, title: string) => {
     const newColumns = columns.map((column) =>
       column.id === columnId ? { ...column, title } : column
@@ -98,45 +116,87 @@ const Tasks = () => {
     setTasks([...tasks]);
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    })
-  );
+  const createNewColumn = async () => {
+    const newColumn = await taskUseCase.createColumn("New column");
+    setColumns([...columns, newColumn]);
+  };
 
   const handleDragStart = (event: DragStartEvent) => {
-    // setActiveId(event.active.id);
     if (getTypeFromDragStartEvent(event) === DraggableItemEnum.COLUMN) {
-      console.log(event);
-      setActiveColumn(getCurrentFromDragStartEvent(event) as ColumnModel);
+      setActiveColumn(getColumnFromDragStartEvent(event) as ColumnModel);
+      return;
+    }
+
+    if (getTypeFromDragStartEvent(event) === DraggableItemEnum.TASK) {
+      setActiveTask(getTaskFromDragStartEvent(event) as TaskModel);
+      return;
     }
   };
 
-  const handleDragMove = (event: DragMoveEvent) => {
-    console.log(activeColumn);
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
 
     if (!over) {
       return;
     }
 
-    const activeColumnId = active.id;
-    const overColumnId = over.id;
+    const activeId = active.id;
+    const overId = over.id;
 
-    if (activeColumnId === overColumnId) return;
+    if (activeId === overId) return;
+
+    const isActiveTask = active.data.current?.type === DraggableItemEnum.TASK;
+    const isOverTask = over.data.current?.type === DraggableItemEnum.TASK;
+
+    if (!isActiveTask) return;
+
+    if (isActiveTask && isOverTask) {
+      setTasks((tasks) => {
+        const activeIndex = tasks.findIndex((task) => task.id === activeId);
+        const overIndex = tasks.findIndex((task) => task.id === overId);
+
+        tasks[activeIndex].status = tasks[overIndex].status;
+
+        return arrayMove(tasks, activeIndex, overIndex);
+      });
+    }
+
+    const isOverColumn = over.data.current?.type === DraggableItemEnum.COLUMN;
+
+    if (isActiveTask && isOverColumn) {
+      setTasks((tasks) => {
+        const activeIndex = tasks.findIndex((task) => task.id === activeId);
+        const overIndex = columns.findIndex((column) => column.id === overId);
+
+        tasks[activeIndex].status = columns[overIndex].title as TaskStatus;
+
+        return arrayMove(tasks, activeIndex, activeIndex);
+      });
+    }
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    setActiveColumn(null);
+    setActiveTask(null);
+
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
 
     setColumns((columns) => {
       const activeColumnIndex = columns.findIndex(
-        (column) => column.id === activeColumnId
+        (column) => column.id === activeId
       );
 
       const overColumnIndex = columns.findIndex(
-        (column) => column.id === overColumnId
+        (column) => column.id === overId
       );
 
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
@@ -155,14 +215,17 @@ const Tasks = () => {
             <PlusIcon className="button__icon" />
             <span className="button__text">Add a task</span>
           </button>
+          <button className="button" onClick={createNewColumn}>
+            <PlusIcon className="button__icon" />
+            <span className="button__text">Add a column</span>
+          </button>
         </section>
 
         <DndContext
           sensors={sensors}
-          // collisionDetection={closestCorners}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          // onDragMove={handleDragMove}
+          onDragOver={handleDragOver}
         >
           <section className="structure__columns">
             <SortableContext items={columnsIds}>
@@ -172,7 +235,8 @@ const Tasks = () => {
                   id={column.id}
                   title={column.title}
                   tasks={column.tasks}
-                  onTaskClick={onTaskClick}
+                  onDeleteTask={deleteTask}
+                  onUpdateTask={updateTask}
                   onDeleteColumn={deleteColumn}
                   onUpdateColumn={updateColumn}
                 />
@@ -186,7 +250,17 @@ const Tasks = () => {
                   id={activeColumn.id}
                   title={activeColumn.title}
                   tasks={activeColumn.tasks}
-                  onTaskClick={onTaskClick}
+                  onDeleteTask={deleteTask}
+                  onUpdateTask={updateTask}
+                  onDeleteColumn={deleteColumn}
+                  onUpdateColumn={updateColumn}
+                />
+              )}
+              {activeTask && (
+                <TaskItem
+                  task={activeTask}
+                  onDeleteTask={deleteTask}
+                  onUpdateTask={updateTask}
                 />
               )}
             </DragOverlay>,

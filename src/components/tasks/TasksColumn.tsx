@@ -1,9 +1,10 @@
-import { useSortable } from "@dnd-kit/sortable";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskModel } from "../../models/task.model";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useMemo } from "react";
 import TrashIcon from "../../icons/TrashIcon";
+import { DragAndDropEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
 
 interface TasksColumnProps {
   id: number;
@@ -11,12 +12,8 @@ interface TasksColumnProps {
   tasks: TaskModel[];
   onDeleteColumn: (columnId: number) => void;
   onUpdateColumn: (columnId: number, title: string) => void;
-  onTaskClick: (task: TaskModel) => void;
-}
-
-enum KeyboardKeysEnum {
-  ENTER = "Enter",
-  ESCAPE = "Escape",
+  onDeleteTask: (id: number) => void;
+  onUpdateTask: (task: TaskModel) => void;
 }
 
 const TasksColumn = ({
@@ -25,9 +22,11 @@ const TasksColumn = ({
   tasks,
   onDeleteColumn,
   onUpdateColumn,
-  onTaskClick,
+  onDeleteTask,
+  onUpdateTask,
 }: TasksColumnProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
+
   const {
     setNodeRef,
     attributes,
@@ -38,10 +37,8 @@ const TasksColumn = ({
   } = useSortable({
     id: id,
     data: {
-      type: "column",
-      id,
-      title,
-      tasks,
+      type: DragAndDropEnum.COLUMN,
+      column: { id, title, tasks },
     },
     disabled: editMode,
   });
@@ -51,21 +48,7 @@ const TasksColumn = ({
     transform: CSS.Transform.toString(transform),
   };
 
-  if (isDragging) {
-    return (
-      <div
-        className="structure__column structure__column--is-dragging "
-        ref={setNodeRef}
-        style={style}
-      >
-        <h2
-          className="structure__column__title"
-          {...attributes}
-          {...listeners}
-        />
-      </div>
-    );
-  }
+  const tasksIds = useMemo(() => tasks?.map((task) => task.id), [tasks]);
 
   const handleTitleClick = () => {
     setEditMode(true);
@@ -89,14 +72,30 @@ const TasksColumn = ({
     onDeleteColumn(id);
   };
 
+  if (isDragging) {
+    return (
+      <div
+        className="structure__column structure__column--is-dragging"
+        ref={setNodeRef}
+        style={style}
+      >
+        <h2
+          className="structure__column__title"
+          {...attributes}
+          {...listeners}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="structure__column" ref={setNodeRef} style={style}>
       <header className="structure__column__header">
         <h2
           className="structure__column__title"
+          onClick={handleTitleClick}
           {...attributes}
           {...listeners}
-          onClick={handleTitleClick}
         >
           {!editMode && title}
           {editMode && (
@@ -116,14 +115,16 @@ const TasksColumn = ({
           <TrashIcon className="button__icon" />
         </button>
       </header>
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          title={task.title}
-          description={task.description}
-          onClick={() => onTaskClick(task)}
-        />
-      ))}
+      <SortableContext items={tasksIds}>
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onDeleteTask={onDeleteTask}
+            onUpdateTask={onUpdateTask}
+          />
+        ))}
+      </SortableContext>
     </div>
   );
 };
