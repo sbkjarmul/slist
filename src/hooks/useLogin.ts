@@ -3,15 +3,13 @@ import authenticationUsecase from "../usecases/authentication.usecase";
 import { AuthenticationParams } from "../models/auth.model";
 import storageUsecase from "../usecases/storage.usecase";
 
-const tokenSymbol = Symbol("token");
+const tokenKey = "token";
 
 const useLogin = () => {
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    const token = storageUsecase.get(String(tokenSymbol));
-
-    console.log("token symbol", String(tokenSymbol));
+    const token = storageUsecase.get(tokenKey);
 
     if (token) {
       setIsLogged(true);
@@ -22,12 +20,12 @@ const useLogin = () => {
 
   const login = async ({ email, password }: AuthenticationParams) => {
     const { token } = await authenticationUsecase.auth({ email, password });
-    storageUsecase.set(String(tokenSymbol), token);
+    storageUsecase.set(tokenKey, token);
     setIsLogged(true);
   };
 
   const logout = () => {
-    storageUsecase.remove(String(tokenSymbol));
+    storageUsecase.remove(tokenKey);
     setIsLogged(false);
   };
 

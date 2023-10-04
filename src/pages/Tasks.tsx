@@ -204,72 +204,66 @@ const Tasks = () => {
   };
 
   return (
-    <div className="structure blur-2">
-      <header className="structure__header">
-        <h1 className="structure__header__logo">slist.</h1>
-      </header>
-      <main className="structure__dashboard">
-        <section className="structure__baner">
-          <h1 className="structure__title">Tasks</h1>
-          <button className="button" onClick={createNewTask}>
-            <PlusIcon className="button__icon" />
-            <span className="button__text">Add a task</span>
-          </button>
-          <button className="button" onClick={createNewColumn}>
-            <PlusIcon className="button__icon" />
-            <span className="button__text">Add a column</span>
-          </button>
-        </section>
+    <main className="structure__dashboard">
+      <section className="structure__baner">
+        <h1 className="structure__title">Tasks</h1>
+        <button className="button" onClick={createNewTask}>
+          <PlusIcon className="button__icon" />
+          <span className="button__text">Add a task</span>
+        </button>
+        <button className="button" onClick={createNewColumn}>
+          <PlusIcon className="button__icon" />
+          <span className="button__text">Add a column</span>
+        </button>
+      </section>
 
-        <DndContext
-          sensors={sensors}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          onDragOver={handleDragOver}
-        >
-          <section className="structure__columns">
-            <SortableContext items={columnsIds}>
-              {columns.map((column) => (
-                <TasksColumn
-                  key={column.id}
-                  id={column.id}
-                  title={column.title}
-                  tasks={column.tasks}
-                  onDeleteTask={deleteTask}
-                  onUpdateTask={updateTask}
-                  onDeleteColumn={deleteColumn}
-                  onUpdateColumn={updateColumn}
-                />
-              ))}
-            </SortableContext>
-          </section>
-          {createPortal(
-            <DragOverlay>
-              {activeColumn && (
-                <TasksColumn
-                  id={activeColumn.id}
-                  title={activeColumn.title}
-                  tasks={activeColumn.tasks}
-                  onDeleteTask={deleteTask}
-                  onUpdateTask={updateTask}
-                  onDeleteColumn={deleteColumn}
-                  onUpdateColumn={updateColumn}
-                />
-              )}
-              {activeTask && (
-                <TaskItem
-                  task={activeTask}
-                  onDeleteTask={deleteTask}
-                  onUpdateTask={updateTask}
-                />
-              )}
-            </DragOverlay>,
-            document.body
-          )}
-        </DndContext>
-      </main>
-      <footer className="structure__footer"></footer>
-    </div>
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragOver={handleDragOver}
+      >
+        <section className="structure__columns">
+          <SortableContext items={columnsIds}>
+            {columns.map((column) => (
+              <TasksColumn
+                key={column.id}
+                id={column.id}
+                title={column.title}
+                tasks={column.tasks}
+                onDeleteTask={deleteTask}
+                onUpdateTask={updateTask}
+                onDeleteColumn={deleteColumn}
+                onUpdateColumn={updateColumn}
+              />
+            ))}
+          </SortableContext>
+        </section>
+        {createPortal(
+          <DragOverlay>
+            {activeColumn && (
+              <TasksColumn
+                id={activeColumn.id}
+                title={activeColumn.title}
+                tasks={activeColumn.tasks}
+                onDeleteTask={deleteTask}
+                onUpdateTask={updateTask}
+                onDeleteColumn={deleteColumn}
+                onUpdateColumn={updateColumn}
+              />
+            )}
+            {activeTask && (
+              <TaskItem
+                task={activeTask}
+                onDeleteTask={deleteTask}
+                onUpdateTask={updateTask}
+              />
+            )}
+          </DragOverlay>,
+          document.body
+        )}
+      </DndContext>
+    </main>
   );
 };
 
