@@ -1,11 +1,11 @@
 import { AuthModel, AuthenticationParams } from "../models/auth.model";
-import { IAuthAPI } from "../infrastructure/auth.api";
+import { AuthAPI, IAuthAPI } from "../infrastructure/auth.api";
 
 export interface IAuthenticationUseCase {
   auth: (authenticationParams: AuthenticationParams) => Promise<AuthModel>;
 }
 
-export class AuthenticationUseCase implements IAuthenticationUseCase {
+class AuthenticationUseCase implements IAuthenticationUseCase {
   constructor(private readonly authAPI: IAuthAPI) {}
 
   async auth(authenticationParams: AuthenticationParams): Promise<AuthModel> {
@@ -14,3 +14,5 @@ export class AuthenticationUseCase implements IAuthenticationUseCase {
     return authModel;
   }
 }
+
+export default new AuthenticationUseCase(new AuthAPI());
