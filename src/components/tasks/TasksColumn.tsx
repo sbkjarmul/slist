@@ -3,14 +3,12 @@ import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskModel } from "../../models/task.model";
 import { useState, KeyboardEvent, useMemo } from "react";
-import TrashIcon from "../../icons/TrashIcon";
 import { DragAndDropEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
 
 interface TasksColumnProps {
   id: number;
   title: string;
   tasks: TaskModel[];
-  onDeleteColumn: (columnId: number) => void;
   onUpdateColumn: (columnId: number, title: string) => void;
   onDeleteTask: (id: number) => void;
   onUpdateTask: (task: TaskModel) => void;
@@ -20,7 +18,6 @@ const TasksColumn = ({
   id,
   title,
   tasks,
-  onDeleteColumn,
   onUpdateColumn,
   onDeleteTask,
   onUpdateTask,
@@ -68,10 +65,6 @@ const TasksColumn = ({
     onUpdateColumn(id, event.target.value);
   };
 
-  const handleColumnDelete = (id: number) => {
-    onDeleteColumn(id);
-  };
-
   if (isDragging) {
     return (
       <div
@@ -108,12 +101,6 @@ const TasksColumn = ({
             />
           )}
         </h2>
-        <button
-          className="button button--delete"
-          onClick={() => handleColumnDelete(id)}
-        >
-          <TrashIcon className="button__icon" />
-        </button>
       </header>
       <SortableContext items={tasksIds}>
         {tasks.map((task) => (

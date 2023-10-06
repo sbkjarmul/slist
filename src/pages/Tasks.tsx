@@ -87,22 +87,6 @@ const Tasks = () => {
     setTasks([...tasks]);
   };
 
-  const deleteColumn = (columnId: number) => {
-    const filteredColumns = columns.filter((column) => column.id !== columnId);
-    setColumns(filteredColumns);
-
-    const columnStatus = columns.find((column) => column.id === columnId)
-      ?.title as TaskStatus;
-
-    setTasks((tasks) => {
-      const filteredTasks = tasks.filter((task) => {
-        return task.status !== columnStatus;
-      });
-
-      return filteredTasks;
-    });
-  };
-
   const updateColumn = (columnId: number, title: string) => {
     const newColumns = columns.map((column) =>
       column.id === columnId ? { ...column, title } : column
@@ -114,11 +98,6 @@ const Tasks = () => {
   const createNewTask = async () => {
     await taskUseCase.createTask("title");
     setTasks([...tasks]);
-  };
-
-  const createNewColumn = async () => {
-    const newColumn = await taskUseCase.createColumn("New column");
-    setColumns([...columns, newColumn]);
   };
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -208,12 +187,8 @@ const Tasks = () => {
       <section className="structure__baner">
         <h1 className="structure__title">Tasks</h1>
         <button className="button" onClick={createNewTask}>
-          <PlusIcon className="button__icon" />
-          <span className="button__text">Add a task</span>
-        </button>
-        <button className="button" onClick={createNewColumn}>
-          <PlusIcon className="button__icon" />
-          <span className="button__text">Add a column</span>
+          <PlusIcon className="button__icon button__icon--white" />
+          <span className="button__text ">Add a task</span>
         </button>
       </section>
 
@@ -233,7 +208,6 @@ const Tasks = () => {
                 tasks={column.tasks}
                 onDeleteTask={deleteTask}
                 onUpdateTask={updateTask}
-                onDeleteColumn={deleteColumn}
                 onUpdateColumn={updateColumn}
               />
             ))}
@@ -248,7 +222,6 @@ const Tasks = () => {
                 tasks={activeColumn.tasks}
                 onDeleteTask={deleteTask}
                 onUpdateTask={updateTask}
-                onDeleteColumn={deleteColumn}
                 onUpdateColumn={updateColumn}
               />
             )}

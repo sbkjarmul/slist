@@ -1,9 +1,11 @@
+import Background from "./components/Background";
 import useLogin from "./hooks/useLogin";
 import Login from "./pages/Login";
 import Tasks from "./pages/Tasks";
 
 function App() {
   const { isLogged, logout } = useLogin();
+
   return (
     <div className="app">
       <div className="structure blur-2">
@@ -19,11 +21,7 @@ function App() {
         {isLogged && <Tasks />}
         <footer className="structure__footer"></footer>
       </div>
-
-      <figure className="shape-1"></figure>
-      <figure className="shape-2"></figure>
-      <figure className="shape-3"></figure>
-      <figure className="shape-4"></figure>
+      <Background />
     </div>
   );
 }

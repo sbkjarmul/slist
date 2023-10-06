@@ -1,9 +1,17 @@
-import { useState, KeyboardEvent, FormEvent } from "react";
+import {
+  useState,
+  KeyboardEvent,
+  FormEvent,
+  MouseEvent,
+  useRef,
+  FocusEvent,
+} from "react";
 import TrashIcon from "../../icons/TrashIcon";
 import { DragAndDropEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
 import { TaskModel } from "../../models/task.model";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { setCursorOnEnd } from "../../utils/shared.utils";
 
 interface TaskItemProps {
   task: TaskModel;
@@ -14,6 +22,8 @@ interface TaskItemProps {
 const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>(task.title);
+  const [description, setDescription] = useState<string>(task.description);
 
   const {
     setNodeRef,
@@ -31,6 +41,9 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
     disabled: editMode,
   });
 
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
@@ -39,22 +52,43 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   const handleTaskDelete = (id: number) => {
     onDeleteTask(id);
   };
-
   const toggleEditMode = () => {
     setEditMode(!editMode);
     setMouseIsOver(false);
+
+    if (editMode) {
+      onUpdateTask({ ...task, title, description });
+    }
   };
 
-  const handleOnEnter = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === KeyboardKeysEnum.ENTER) {
-      onUpdateTask(task);
+  const onBlurHandler = (
+    event:
+      | FocusEvent<HTMLTextAreaElement | HTMLInputElement>
+      | MouseEvent<HTMLElement>
+  ) => {
+    if (
+      event.relatedTarget !== titleRef.current &&
+      (event as FocusEvent).relatedTarget !== descriptionRef.current
+    ) {
       toggleEditMode();
     }
   };
 
-  const handleOnChange = (event: FormEvent<HTMLTextAreaElement>) => {
+  const handleOnEnter = (event: KeyboardEvent) => {
+    if (event.key === KeyboardKeysEnum.ENTER) {
+      onUpdateTask({ ...task, description });
+      toggleEditMode();
+    }
+  };
+
+  const handleTitleChange = (event: FormEvent) => {
     const { value } = event.target as HTMLTextAreaElement;
-    onUpdateTask({ ...task, description: value });
+    setTitle(value);
+  };
+
+  const handleDescriptionChange = (event: FormEvent) => {
+    const { value } = event.target as HTMLTextAreaElement;
+    setDescription(value);
   };
 
   if (isDragging) {
@@ -79,15 +113,24 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
         {...listeners}
       >
         <div className="task__text">
-          <h3>{task.title}</h3>
+          <input
+            type="text"
+            value={title}
+            onKeyDown={handleOnEnter}
+            onChange={handleTitleChange}
+            onBlur={onBlurHandler}
+            onFocus={setCursorOnEnd}
+            ref={titleRef}
+          />
           <textarea
             className="task__description--edit"
-            value={task.description}
-            autoFocus
+            value={description}
+            ref={descriptionRef}
             placeholder="Task description here"
-            onBlur={toggleEditMode}
+            onBlur={onBlurHandler}
             onKeyDown={handleOnEnter}
-            onChange={handleOnChange}
+            onChange={handleDescriptionChange}
+            onFocus={setCursorOnEnd}
           />
         </div>
       </article>
