@@ -1,17 +1,11 @@
-import {
-  useState,
-  KeyboardEvent,
-  FormEvent,
-  MouseEvent,
-  useRef,
-  FocusEvent,
-} from "react";
+import { useState, KeyboardEvent, FormEvent, useRef } from "react";
 import TrashIcon from "../../icons/TrashIcon";
-import { DragAndDropEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
+import { DraggableItemEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
 import { TaskModel } from "../../models/task.model";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { setCursorOnEnd } from "../../utils/shared.utils";
+import { getValueFromEvent, setCursorOnEnd } from "../../utils/shared.utils";
+import { TaskBlurEvent } from "../../types/shared.types";
 
 interface TaskItemProps {
   task: TaskModel;
@@ -25,6 +19,9 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   const [title, setTitle] = useState<string>(task.title);
   const [description, setDescription] = useState<string>(task.description);
 
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+
   const {
     setNodeRef,
     attributes,
@@ -35,14 +32,11 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   } = useSortable({
     id: task.id,
     data: {
-      type: DragAndDropEnum.TASK,
+      type: DraggableItemEnum.TASK,
       task,
     },
     disabled: editMode,
   });
-
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
 
   const style = {
     transition,
@@ -52,6 +46,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   const handleTaskDelete = (id: number) => {
     onDeleteTask(id);
   };
+
   const toggleEditMode = () => {
     setEditMode(!editMode);
     setMouseIsOver(false);
@@ -61,18 +56,15 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
     }
   };
 
-  const onBlurHandler = (
-    event:
-      | FocusEvent<HTMLTextAreaElement | HTMLInputElement>
-      | MouseEvent<HTMLElement>
-  ) => {
-    if (
-      event.relatedTarget !== titleRef.current &&
-      (event as FocusEvent).relatedTarget !== descriptionRef.current
-    ) {
+  const onBlurHandler = (event: TaskBlurEvent) => {
+    if (isEditElement(event)) {
       toggleEditMode();
     }
   };
+
+  const isEditElement = (event: TaskBlurEvent) =>
+    event.relatedTarget !== titleRef.current &&
+    event.relatedTarget !== descriptionRef.current;
 
   const handleOnEnter = (event: KeyboardEvent) => {
     if (event.key === KeyboardKeysEnum.ENTER) {
@@ -82,13 +74,11 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   };
 
   const handleTitleChange = (event: FormEvent) => {
-    const { value } = event.target as HTMLTextAreaElement;
-    setTitle(value);
+    setTitle(getValueFromEvent(event));
   };
 
   const handleDescriptionChange = (event: FormEvent) => {
-    const { value } = event.target as HTMLTextAreaElement;
-    setDescription(value);
+    setDescription(getValueFromEvent(event));
   };
 
   if (isDragging) {
@@ -99,7 +89,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
         {...attributes}
         {...listeners}
         className="task task--is-dragging shadow-1"
-      ></article>
+      />
     );
   }
 

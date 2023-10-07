@@ -1,13 +1,12 @@
-import { ColumnModel, TaskModel, TaskStatus } from "../models/task.model";
-import { generateID } from "../utils/shared.utils";
+import { TaskModel, TaskStatus } from "@/models/task.model";
+import { generateID } from "@/utils/shared.utils";
 
 export interface ITaskAPI {
-  fetchAll: () => Promise<TaskModel[]>;
+  fetchTasks: () => Promise<TaskModel[]>;
   changeStatus: (id: number, status: TaskStatus) => Promise<TaskModel>;
   create: (title: string) => Promise<TaskModel>;
   delete: (id: number) => Promise<number>;
   update: (task: TaskModel) => Promise<TaskModel>;
-  createColumn: (status: string) => Promise<ColumnModel>;
 }
 
 const mockTasks: TaskModel[] = [
@@ -56,7 +55,7 @@ const mockTasks: TaskModel[] = [
 ];
 
 class TaskAPI implements ITaskAPI {
-  fetchAll() {
+  fetchTasks() {
     return Promise.resolve(mockTasks);
   }
 
@@ -85,15 +84,6 @@ class TaskAPI implements ITaskAPI {
       mockTasks.splice(taskIndex, 1);
     }
     return Promise.resolve(taskId);
-  }
-
-  createColumn(status: string): Promise<ColumnModel> {
-    const column = {
-      id: mockTasks.length + 1,
-      title: status,
-      tasks: [],
-    };
-    return Promise.resolve(column);
   }
 
   changeStatus(id: number, status: TaskStatus): Promise<TaskModel> {

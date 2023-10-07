@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import TasksColumn from "../components/tasks/TasksColumn";
-import { ColumnModel, TaskModel, TaskStatus } from "../models/task.model";
+import { TaskModel, TaskStatus } from "../models/task.model";
 import taskUseCase from "../usecases/task.usecase";
 import {
   DndContext,
@@ -15,46 +15,20 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import PlusIcon from "../icons/PlusIcon";
 import {
-  DraggableItemEnum,
+  generateColumns,
   getColumnFromDragStartEvent,
   getTaskFromDragStartEvent,
   getTypeFromDragStartEvent,
 } from "../utils/task.utils";
 import { createPortal } from "react-dom";
 import TaskItem from "../components/tasks/TaskItem";
-import { generateID } from "../utils/shared.utils";
-
-const basicColumns = (tasks: TaskModel[]): ColumnModel[] => [
-  {
-    id: generateID(),
-    title: TaskStatus.CREATED,
-    tasks: tasks.filter(
-      (task: TaskModel) => task.status === TaskStatus.CREATED
-    ),
-  },
-  {
-    id: generateID(),
-    title: TaskStatus.OPEN,
-    tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.OPEN),
-  },
-  {
-    id: generateID(),
-    title: TaskStatus.IN_PROGRESS,
-    tasks: tasks.filter(
-      (task: TaskModel) => task.status === TaskStatus.IN_PROGRESS
-    ),
-  },
-  {
-    id: generateID(),
-    title: TaskStatus.DONE,
-    tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.DONE),
-  },
-];
+import { Column } from "@/types/shared.types";
+import { DraggableItemEnum } from "@/enums/shared.enum";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
-  const [columns, setColumns] = useState<ColumnModel[]>([]);
-  const [activeColumn, setActiveColumn] = useState<ColumnModel | null>(null);
+  const [columns, setColumns] = useState<Column[]>([]);
+  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<TaskModel | null>(null);
 
   const columnsIds = useMemo(
@@ -65,7 +39,7 @@ const Tasks = () => {
   useEffect(() => {
     taskUseCase.fetchTasks().then((tasks: TaskModel[]) => {
       setTasks(tasks);
-      setColumns(basicColumns(tasks));
+      setColumns(generateColumns(tasks));
     });
   }, [tasks]);
 
@@ -88,7 +62,7 @@ const Tasks = () => {
   };
 
   const updateColumn = (columnId: number, title: string) => {
-    const newColumns = columns.map((column) =>
+    const newColumns: Column[] = columns.map((column) =>
       column.id === columnId ? { ...column, title } : column
     );
 
@@ -102,7 +76,7 @@ const Tasks = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     if (getTypeFromDragStartEvent(event) === DraggableItemEnum.COLUMN) {
-      setActiveColumn(getColumnFromDragStartEvent(event) as ColumnModel);
+      setActiveColumn(getColumnFromDragStartEvent(event) as Column);
       return;
     }
 

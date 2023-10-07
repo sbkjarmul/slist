@@ -3,7 +3,7 @@ export enum KeyboardKeysEnum {
   ESCAPE = "Escape",
 }
 
-export enum DragAndDropEnum {
+export enum DraggableItemEnum {
   TASK = "task",
   COLUMN = "column",
 }

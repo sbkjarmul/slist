@@ -1,9 +1,6 @@
+import { TaskModel, TaskStatus } from "@/models/task.model";
+import { Column } from "@/types/shared.types";
 import { DragStartEvent } from "@dnd-kit/core";
-
-export enum DraggableItemEnum {
-  COLUMN = "column",
-  TASK = "task",
-}
 
 export const getTypeFromDragStartEvent = (event: DragStartEvent): string =>
   event.active.data.current?.type;
@@ -16,3 +13,30 @@ export const getTaskFromDragStartEvent = (event: DragStartEvent) =>
 
 export const getColumnFromDragStartEvent = (event: DragStartEvent) =>
   event.active.data.current?.column;
+
+export const generateColumns = (tasks: TaskModel[]): Column[] => [
+  {
+    id: 1,
+    title: TaskStatus.CREATED,
+    tasks: tasks.filter(
+      (task: TaskModel) => task.status === TaskStatus.CREATED
+    ),
+  },
+  {
+    id: 2,
+    title: TaskStatus.OPEN,
+    tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.OPEN),
+  },
+  {
+    id: 3,
+    title: TaskStatus.IN_PROGRESS,
+    tasks: tasks.filter(
+      (task: TaskModel) => task.status === TaskStatus.IN_PROGRESS
+    ),
+  },
+  {
+    id: 4,
+    title: TaskStatus.DONE,
+    tasks: tasks.filter((task: TaskModel) => task.status === TaskStatus.DONE),
+  },
+];

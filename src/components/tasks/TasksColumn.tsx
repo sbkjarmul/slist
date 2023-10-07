@@ -2,8 +2,8 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskModel } from "../../models/task.model";
-import { useState, KeyboardEvent, useMemo } from "react";
-import { DragAndDropEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
+import { useState, KeyboardEvent, ChangeEvent, useMemo } from "react";
+import { DraggableItemEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
 
 interface TasksColumnProps {
   id: number;
@@ -34,7 +34,7 @@ const TasksColumn = ({
   } = useSortable({
     id: id,
     data: {
-      type: DragAndDropEnum.COLUMN,
+      type: DraggableItemEnum.COLUMN,
       column: { id, title, tasks },
     },
     disabled: editMode,
@@ -61,7 +61,7 @@ const TasksColumn = ({
     }
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onUpdateColumn(id, event.target.value);
   };
 
