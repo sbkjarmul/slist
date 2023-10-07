@@ -1,11 +1,14 @@
 import { useState, KeyboardEvent, FormEvent, useRef } from "react";
-import TrashIcon from "../../icons/TrashIcon";
-import { DraggableItemEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
-import { TaskModel } from "../../models/task.model";
+import TrashIcon from "@/presentation/icons/TrashIcon";
+import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
+import { TaskModel } from "@/models/task.model";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { getValueFromEvent, setCursorOnEnd } from "../../utils/shared.utils";
-import { TaskBlurEvent } from "../../types/shared.types";
+import {
+  getValueFromEvent,
+  setCursorOnEnd,
+} from "@/presentation/utils/shared.utils";
+import { TaskBlurEvent } from "@/types/shared.types";
 
 interface TaskItemProps {
   task: TaskModel;

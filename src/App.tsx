@@ -1,7 +1,7 @@
-import Background from "./components/Background";
-import useLogin from "./hooks/useLogin";
-import Login from "./pages/Login";
-import Tasks from "./pages/Tasks";
+import Background from "./presentation/components/Background";
+import useLogin from "./presentation/hooks/useLogin";
+import Login from "./presentation/pages/Login";
+import Tasks from "./presentation/pages/Tasks";
 
 function App() {
   const { isLogged, logout } = useLogin();

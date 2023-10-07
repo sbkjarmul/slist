@@ -1,9 +1,9 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
-import { TaskModel } from "../../models/task.model";
+import { TaskModel } from "@/models/task.model";
 import { useState, KeyboardEvent, ChangeEvent, useMemo } from "react";
-import { DraggableItemEnum, KeyboardKeysEnum } from "../../enums/shared.enum";
+import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
 
 interface TasksColumnProps {
   id: number;

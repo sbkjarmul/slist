@@ -1,5 +1,4 @@
 import { TaskModel, TaskStatus } from "@/models/task.model";
-import { generateID } from "@/utils/shared.utils";
 
 export interface ITaskAPI {
   fetchTasks: () => Promise<TaskModel[]>;
@@ -53,6 +52,10 @@ const mockTasks: TaskModel[] = [
     status: TaskStatus.CREATED,
   },
 ];
+
+export function generateID(): number {
+  return Math.floor(Math.random() * 1000000);
+}
 
 class TaskAPI implements ITaskAPI {
   fetchTasks() {

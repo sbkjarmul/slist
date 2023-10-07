@@ -1,5 +1,5 @@
-import { AuthModel, AuthenticationParams } from "../models/auth.model";
-import { AuthAPI, IAuthAPI } from "../infrastructure/auth.api";
+import { AuthModel, AuthenticationParams } from "@/models/auth.model";
+import { AuthAPI, IAuthAPI } from "@/infrastructure/auth.api";
 
 export interface IAuthenticationUseCase {
   auth: (authenticationParams: AuthenticationParams) => Promise<AuthModel>;

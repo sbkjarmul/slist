@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import useLogin from "../hooks/useLogin";
+import useLogin from "@/presentation/hooks/useLogin";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -24,7 +24,7 @@ const Login = () => {
       <section className="right">
         <h1 className="right__title">Write Everything.</h1>
         <div className="right__image">
-          <img src="src/assets/todo-render.png" alt="" />
+          <img src="src/presentation/assets/todo-render.png" alt="" />
         </div>
       </section>
       <section className="login">
