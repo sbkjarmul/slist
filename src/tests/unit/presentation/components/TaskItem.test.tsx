@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import { TaskModel } from "@/models/task.model";
 import TaskItem from "@/presentation/components/tasks/TaskItem";
 
-test("Render App", () => {
+it("Render App", () => {
   render(
     <TaskItem
       task={{} as TaskModel}

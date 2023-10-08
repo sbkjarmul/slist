@@ -4,7 +4,7 @@ export interface IAuthAPI {
   auth: (params: AuthenticationParams) => Promise<AuthModel>;
 }
 
-const mockAuth: AuthModel = {
+export const mockAuth: AuthModel = {
   token: "1234",
 };
 
