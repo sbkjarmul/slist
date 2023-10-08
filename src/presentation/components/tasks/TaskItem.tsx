@@ -8,7 +8,7 @@ import {
   getValueFromEvent,
   setCursorOnEnd,
 } from "@/presentation/utils/shared.utils";
-import { TaskBlurEvent } from "@/types/shared.types";
+import { TaskBlurEvent } from "@/presentation/types/shared.types";
 
 interface TaskItemProps {
   task: TaskModel;

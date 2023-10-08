@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { InputElement } from "@/types/shared.types";
+import { InputElement } from "@/presentation/types/shared.types";
 
 export function setCursorOnEnd(e: FormEvent) {
   const target = e.target as InputElement;

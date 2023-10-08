@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import TasksColumn from "@/presentation/components/tasks/TasksColumn";
-import { TaskModel, TaskStatus } from "@/models/task.model";
+import { TaskModel, ColumnModel } from "@/models/task.model";
 import taskUseCase from "@/usecases/task.usecase";
 import {
   DndContext,
@@ -22,13 +22,13 @@ import {
 } from "@/presentation/utils/task.utils";
 import { createPortal } from "react-dom";
 import TaskItem from "@/presentation/components/tasks/TaskItem";
-import { Column } from "@/types/shared.types";
 import { DraggableItemEnum } from "@/enums/shared.enum";
+import { TaskStatus } from "@/enums/task.enum";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
-  const [columns, setColumns] = useState<Column[]>([]);
-  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
+  const [columns, setColumns] = useState<ColumnModel[]>([]);
+  const [activeColumn, setActiveColumn] = useState<ColumnModel | null>(null);
   const [activeTask, setActiveTask] = useState<TaskModel | null>(null);
 
   const columnsIds = useMemo(
@@ -61,8 +61,8 @@ const Tasks = () => {
     setTasks([...tasks]);
   };
 
-  const updateColumn = (columnId: number, title: string) => {
-    const newColumns: Column[] = columns.map((column) =>
+  const updateColumn = (columnId: number, title: TaskStatus) => {
+    const newColumns: ColumnModel[] = columns.map((column) =>
       column.id === columnId ? { ...column, title } : column
     );
 
@@ -76,7 +76,7 @@ const Tasks = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     if (getTypeFromDragStartEvent(event) === DraggableItemEnum.COLUMN) {
-      setActiveColumn(getColumnFromDragStartEvent(event) as Column);
+      setActiveColumn(getColumnFromDragStartEvent(event) as ColumnModel);
       return;
     }
 

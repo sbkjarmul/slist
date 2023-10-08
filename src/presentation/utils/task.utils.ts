@@ -1,5 +1,5 @@
-import { TaskModel, TaskStatus } from "@/models/task.model";
-import { Column } from "@/types/shared.types";
+import { TaskStatus } from "@/enums/task.enum";
+import { TaskModel, ColumnModel } from "@/models/task.model";
 import { DragStartEvent } from "@dnd-kit/core";
 
 export const getTypeFromDragStartEvent = (event: DragStartEvent): string =>
@@ -14,7 +14,7 @@ export const getTaskFromDragStartEvent = (event: DragStartEvent) =>
 export const getColumnFromDragStartEvent = (event: DragStartEvent) =>
   event.active.data.current?.column;
 
-export const generateColumns = (tasks: TaskModel[]): Column[] => [
+export const generateColumns = (tasks: TaskModel[]): ColumnModel[] => [
   {
     id: 1,
     title: TaskStatus.CREATED,

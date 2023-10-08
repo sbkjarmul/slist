@@ -1,4 +1,5 @@
-import { TaskModel, TaskStatus } from "@/models/task.model";
+import { TaskStatus } from "@/enums/task.enum";
+import { TaskModel } from "@/models/task.model";
 
 export interface ITaskAPI {
   fetchTasks: () => Promise<TaskModel[]>;

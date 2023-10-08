@@ -4,12 +4,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { TaskModel } from "@/models/task.model";
 import { useState, KeyboardEvent, ChangeEvent, useMemo } from "react";
 import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
+import { TaskStatus } from "@/enums/task.enum";
 
 interface TasksColumnProps {
   id: number;
   title: string;
   tasks: TaskModel[];
-  onUpdateColumn: (columnId: number, title: string) => void;
+  onUpdateColumn: (columnId: number, title: TaskStatus) => void;
   onDeleteTask: (id: number) => void;
   onUpdateTask: (task: TaskModel) => void;
 }
@@ -62,7 +63,7 @@ const TasksColumn = ({
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onUpdateColumn(id, event.target.value);
+    onUpdateColumn(id, event.target.value as TaskStatus);
   };
 
   if (isDragging) {

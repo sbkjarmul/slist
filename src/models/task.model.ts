@@ -1,3 +1,5 @@
+import { TaskStatus } from "@/enums/task.enum";
+
 export interface TaskModel {
   id: number;
   title: string;
@@ -5,15 +7,8 @@ export interface TaskModel {
   status: TaskStatus;
 }
 
-export enum TaskStatus {
-  CREATED = "CREATED",
-  OPEN = "OPEN",
-  IN_PROGRESS = "IN PROGRESS",
-  DONE = "DONE",
-}
-
 export interface ColumnModel {
   id: number;
-  title: string;
+  title: TaskStatus;
   tasks: TaskModel[];
 }
