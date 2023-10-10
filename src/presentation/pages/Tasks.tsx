@@ -24,6 +24,7 @@ import { createPortal } from "react-dom";
 import TaskItem from "@/presentation/components/tasks/TaskItem";
 import { DraggableItemEnum } from "@/enums/shared.enum";
 import { TaskStatus } from "@/enums/task.enum";
+import content from "@/presentation/assets/content.json";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -70,7 +71,7 @@ const Tasks = () => {
   };
 
   const createNewTask = async () => {
-    await taskUseCase.createTask("title");
+    await taskUseCase.createTask("New task");
     setTasks([...tasks]);
   };
 
@@ -159,10 +160,12 @@ const Tasks = () => {
   return (
     <main className="structure__dashboard">
       <section className="structure__baner">
-        <h1 className="structure__title">Tasks</h1>
+        <h1 className="structure__title">{content.tasks.title}</h1>
         <button className="button" onClick={createNewTask}>
           <PlusIcon className="button__icon button__icon--white" />
-          <span className="button__text ">Add a task</span>
+          <span className="button__text" data-testid="add-task-button">
+            {content.tasks.addTask}
+          </span>
         </button>
       </section>
 
@@ -177,9 +180,7 @@ const Tasks = () => {
             {columns.map((column) => (
               <TasksColumn
                 key={column.id}
-                id={column.id}
-                title={column.title}
-                tasks={column.tasks}
+                column={column}
                 onDeleteTask={deleteTask}
                 onUpdateTask={updateTask}
                 onUpdateColumn={updateColumn}
@@ -191,9 +192,7 @@ const Tasks = () => {
           <DragOverlay>
             {activeColumn && (
               <TasksColumn
-                id={activeColumn.id}
-                title={activeColumn.title}
-                tasks={activeColumn.tasks}
+                column={activeColumn}
                 onDeleteTask={deleteTask}
                 onUpdateTask={updateTask}
                 onUpdateColumn={updateColumn}

@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "title": "Tasks",
+    "addTask": "Add Task"
+  },
+  "login": {
+    "welcomeText": "Write Everything.",
+    "welcomeImage": "Slist welcome image",
+    "logIn": "Log In",
+    "loginButton": "Login",
+    "email": "Email",
+    "password": "Password"
+  }
+}

@@ -1,6 +1,6 @@
 const Background = () => {
   return (
-    <div className="background">
+    <div className="background" data-testid="background">
       <figure className="shape-1"></figure>
       <figure className="shape-2"></figure>
       <figure className="shape-3"></figure>

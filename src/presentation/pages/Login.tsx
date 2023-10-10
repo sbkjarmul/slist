@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import useLogin from "@/presentation/hooks/useLogin";
+import content from "@/presentation/assets/content.json";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -22,16 +23,19 @@ const Login = () => {
   return (
     <main className="structure__main">
       <section className="right">
-        <h1 className="right__title">Write Everything.</h1>
+        <h1 className="right__title">{content.login.welcomeText}</h1>
         <div className="right__image">
-          <img src="src/presentation/assets/todo-render.png" alt="" />
+          <img
+            src="src/presentation/assets/images/todo-render.png"
+            alt={content.login.welcomeImage}
+          />
         </div>
       </section>
       <section className="login">
         <form className="login__form">
-          <h2 className="h1">Log In</h2>
+          <h2 className="h1">{content.login.logIn}</h2>
           <div className="login__form__group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{content.login.email}</label>
             <input
               id="email"
               type="email"
@@ -41,7 +45,7 @@ const Login = () => {
           </div>
           <div className="login__form__group">
             <label className="login__form__label" htmlFor="password">
-              Password
+              {content.login.password}
             </label>
             <input
               id="password"
@@ -51,7 +55,7 @@ const Login = () => {
             />
           </div>
           <button className="button" onClick={handleLogin}>
-            Login
+            {content.login.loginButton}
           </button>
         </form>
       </section>

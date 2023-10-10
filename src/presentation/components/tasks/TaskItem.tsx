@@ -140,6 +140,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
       style={style}
       {...attributes}
       {...listeners}
+      data-testid="task-item"
     >
       <div className="task__text">
         <h3>{task.title}</h3>

@@ -1,24 +1,20 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
-import { TaskModel } from "@/models/task.model";
+import { ColumnModel, TaskModel } from "@/models/task.model";
 import { useState, KeyboardEvent, ChangeEvent, useMemo } from "react";
 import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
 import { TaskStatus } from "@/enums/task.enum";
 
 interface TasksColumnProps {
-  id: number;
-  title: string;
-  tasks: TaskModel[];
+  column: ColumnModel;
   onUpdateColumn: (columnId: number, title: TaskStatus) => void;
   onDeleteTask: (id: number) => void;
   onUpdateTask: (task: TaskModel) => void;
 }
 
 const TasksColumn = ({
-  id,
-  title,
-  tasks,
+  column: { id, title, tasks },
   onUpdateColumn,
   onDeleteTask,
   onUpdateTask,
@@ -90,6 +86,7 @@ const TasksColumn = ({
           onClick={handleTitleClick}
           {...attributes}
           {...listeners}
+          data-testid="column-title"
         >
           {!editMode && title}
           {editMode && (
@@ -99,6 +96,7 @@ const TasksColumn = ({
               onBlur={handleTitleBlur}
               onKeyDown={handleTitleKeyDown}
               onChange={handleTitleChange}
+              data-testid="column-title-input"
             />
           )}
         </h2>
