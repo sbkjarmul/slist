@@ -41,6 +41,7 @@ const Login = () => {
               type="email"
               value={email}
               onChange={handleEmailChange}
+              data-testid="email-input"
             />
           </div>
           <div className="login__form__group">
@@ -52,6 +53,7 @@ const Login = () => {
               value={password}
               onChange={handlePasswordChange}
               type="password"
+              data-testid="password-input"
             />
           </div>
           <button className="button" onClick={handleLogin}>

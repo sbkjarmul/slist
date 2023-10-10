@@ -9,7 +9,7 @@ export interface ITaskAPI {
   update: (task: TaskModel) => Promise<TaskModel>;
 }
 
-const mockTasks: TaskModel[] = [
+export const mockTasks: TaskModel[] = [
   {
     id: generateID(),
     title: "Learn TypeScript",
