@@ -1,7 +1,14 @@
 import TaskAPI, { ITaskAPI } from "@/infrastructure/task.api";
 import { TaskModel } from "@/models/task.model";
 
-class TaskUseCase {
+export interface ITaskUseCase {
+  fetchTasks: () => Promise<TaskModel[]>;
+  createTask: (title: string) => Promise<TaskModel>;
+  updateTask: (task: TaskModel) => Promise<TaskModel>;
+  deleteTask: (id: number) => Promise<number>;
+}
+
+export class TaskUseCase {
   constructor(private readonly taskAPI: ITaskAPI) {}
 
   async fetchTasks() {

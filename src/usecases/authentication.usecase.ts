@@ -5,7 +5,7 @@ export interface IAuthenticationUseCase {
   auth: (authenticationParams: AuthenticationParams) => Promise<AuthModel>;
 }
 
-class AuthenticationUseCase implements IAuthenticationUseCase {
+export class AuthenticationUseCase implements IAuthenticationUseCase {
   constructor(private readonly authAPI: IAuthAPI) {}
 
   async auth(authenticationParams: AuthenticationParams): Promise<AuthModel> {
