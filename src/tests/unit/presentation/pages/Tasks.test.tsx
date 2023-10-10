@@ -7,14 +7,14 @@ import { tasks } from "../mocks/tasks.mock";
 
 jest.mock("@/usecases/task.usecase");
 
-describe("Tasks", () => {
-  const fetchTasksSpy = jest.spyOn(taskUsecase, "fetchTasks");
+const mockedTaskUseCase = jest.mocked(taskUsecase);
 
+describe("Tasks", () => {
   beforeEach(() => {
-    fetchTasksSpy.mockResolvedValue(tasks);
+    mockedTaskUseCase.fetchTasks.mockResolvedValue(tasks);
   });
 
-  it("should render the component", async () => {
+  it("should render the page", async () => {
     await act(async () => render(<Tasks />));
     const title = screen.getByText(content.tasks.title);
     expect(title).toBeInTheDocument();
