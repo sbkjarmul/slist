@@ -53,4 +53,22 @@ describe("useLogin", () => {
     expect(result.current.isLogged).toBe(false);
     expect(removeItemMock).toHaveBeenCalledWith("token");
   });
+
+  it("should set the authentication state to true if the token is present", () => {
+    const getItemMock = jest.fn().mockReturnValue("test-token");
+    mockedStorageUsecase.get.mockImplementation(getItemMock);
+
+    const { result } = renderHook(() => useLogin());
+
+    expect(result.current.isLogged).toBe(true);
+  });
+
+  it("should set the authentication state to false if the token is not present", () => {
+    const getItemMock = jest.fn().mockReturnValue(undefined);
+    mockedStorageUsecase.get.mockImplementation(getItemMock);
+
+    const { result } = renderHook(() => useLogin());
+
+    expect(result.current.isLogged).toBe(false);
+  });
 });

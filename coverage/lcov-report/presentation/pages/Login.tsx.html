@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">84.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/15</span>
+                <span class='fraction'>16/19</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">84.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/15</span>
+                <span class='fraction'>16/19</span>
             </div>
         
             
@@ -134,6 +134,10 @@
 <a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -194,14 +198,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ChangeEvent, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FormEvent, useState } from "react";
 import useLogin from "@/presentation/hooks/useLogin";
 import content from "@/presentation/assets/content.json";
+import "./Login.scss";
+import Input, { InputTypeEnum } from "../components/inputs/Input";
+import Button from "../components/button/Button";
+import { getValueFromEvent } from "../utils/shared.utils";
 &nbsp;
 const Login = () =&gt; {
   const [email, setEmail] = useState&lt;string&gt;("");
@@ -209,12 +213,12 @@ const Login = () =&gt; {
 &nbsp;
   const { login } = useLogin();
 &nbsp;
-  const handlePasswordChange = <span class="fstat-no" title="function not covered" >(e</span>vent: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setPassword(event.target.value);</span>
+  const handlePasswordChange = <span class="fstat-no" title="function not covered" >(e</span>vent: FormEvent) =&gt; {
+<span class="cstat-no" title="statement not covered" >    setPassword(getValueFromEvent(event));</span>
   };
 &nbsp;
-  const handleEmailChange = <span class="fstat-no" title="function not covered" >(e</span>vent: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setEmail(event.target.value);</span>
+  const handleEmailChange = <span class="fstat-no" title="function not covered" >(e</span>vent: FormEvent) =&gt; {
+<span class="cstat-no" title="statement not covered" >    setEmail(getValueFromEvent(event));</span>
   };
 &nbsp;
   const handleLogin = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
@@ -222,7 +226,7 @@ const Login = () =&gt; {
   };
 &nbsp;
   return (
-    &lt;main className="structure__main"&gt;
+    &lt;main className="login__wrapper"&gt;
       &lt;section className="right"&gt;
         &lt;h1 className="right__title"&gt;{content.login.welcomeText}&lt;/h1&gt;
         &lt;div className="right__image"&gt;
@@ -237,29 +241,25 @@ const Login = () =&gt; {
           &lt;h2 className="h1"&gt;{content.login.logIn}&lt;/h2&gt;
           &lt;div className="login__form__group"&gt;
             &lt;label htmlFor="email"&gt;{content.login.email}&lt;/label&gt;
-            &lt;input
-              id="email"
-              type="email"
+            &lt;Input
+              type={InputTypeEnum.EMAIL}
               value={email}
               onChange={handleEmailChange}
-              data-testid="email-input"
+              placeholder={content.login.emailPlaceholder}
             /&gt;
           &lt;/div&gt;
           &lt;div className="login__form__group"&gt;
             &lt;label className="login__form__label" htmlFor="password"&gt;
               {content.login.password}
             &lt;/label&gt;
-            &lt;input
-              id="password"
+            &lt;Input
               value={password}
               onChange={handlePasswordChange}
-              type="password"
-              data-testid="password-input"
+              type={InputTypeEnum.PASSWORD}
+              placeholder={content.login.passwordPlaceholder}
             /&gt;
           &lt;/div&gt;
-          &lt;button className="button" onClick={handleLogin}&gt;
-            {content.login.loginButton}
-          &lt;/button&gt;
+          &lt;Button onClick={handleLogin}&gt;{content.login.loginButton}&lt;/Button&gt;
         &lt;/form&gt;
       &lt;/section&gt;
     &lt;/main&gt;
@@ -274,7 +274,7 @@ export default Login;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-10T15:38:39.561Z
+                at 2023-10-12T10:53:48.157Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
