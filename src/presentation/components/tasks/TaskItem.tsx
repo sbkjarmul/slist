@@ -4,11 +4,14 @@ import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
 import { TaskModel } from "@/models/task.model";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import "./TaskItem.scss";
 import {
   getValueFromEvent,
   setCursorOnEnd,
 } from "@/presentation/utils/shared.utils";
 import { TaskBlurEvent } from "@/presentation/types/shared.types";
+import Button, { ButtonTypeEnum } from "../button/Button";
+import Input from "../inputs/Input";
 
 interface TaskItemProps {
   task: TaskModel;
@@ -87,11 +90,11 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
   if (isDragging) {
     return (
       <article
+        className="task task--is-dragging"
         ref={setNodeRef}
         style={style}
         {...attributes}
         {...listeners}
-        className="task task--is-dragging shadow-1"
       />
     );
   }
@@ -106,22 +109,22 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
         {...listeners}
       >
         <div className="task__text">
-          <input
+          <Input
             type="text"
             value={title}
-            onKeyDown={handleOnEnter}
+            onEnter={handleOnEnter}
             onChange={handleTitleChange}
             onBlur={onBlurHandler}
             onFocus={setCursorOnEnd}
             ref={titleRef}
           />
-          <textarea
-            className="task__description--edit"
+          <Input
+            type="multi"
             value={description}
             ref={descriptionRef}
             placeholder="Task description here"
             onBlur={onBlurHandler}
-            onKeyDown={handleOnEnter}
+            onEnter={handleOnEnter}
             onChange={handleDescriptionChange}
             onFocus={setCursorOnEnd}
           />
@@ -132,7 +135,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
 
   return (
     <article
-      className="task shadow-1"
+      className="task"
       onClick={toggleEditMode}
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
@@ -148,12 +151,12 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
       </div>
       <div className="task__action">
         {mouseIsOver && (
-          <button
-            className="button button--delete"
+          <Button
             onClick={() => handleTaskDelete(task.id)}
+            type={ButtonTypeEnum.TRANSPARENT}
           >
             <TrashIcon className="button__icon" />
-          </button>
+          </Button>
         )}
       </div>
     </article>

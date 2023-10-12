@@ -2,9 +2,12 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
 import { ColumnModel, TaskModel } from "@/models/task.model";
-import { useState, KeyboardEvent, ChangeEvent, useMemo } from "react";
-import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
+import { useState, useMemo, FormEvent } from "react";
+import { DraggableItemEnum } from "@/enums/shared.enum";
 import { TaskStatus } from "@/enums/task.enum";
+import Input from "../inputs/Input";
+import { getValueFromEvent } from "@/presentation/utils/shared.utils";
+import "./TasksColumn.scss";
 
 interface TasksColumnProps {
   column: ColumnModel;
@@ -52,37 +55,31 @@ const TasksColumn = ({
     setEditMode(false);
   };
 
-  const handleTitleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === KeyboardKeysEnum.ENTER) {
-      setEditMode(false);
-    }
+  const handleOnEnter = () => {
+    setEditMode(false);
   };
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onUpdateColumn(id, event.target.value as TaskStatus);
+  const handleTitleChange = (event: FormEvent) => {
+    onUpdateColumn(id, getValueFromEvent(event) as TaskStatus);
   };
 
   if (isDragging) {
     return (
       <div
-        className="structure__column structure__column--is-dragging"
+        className="column column--is-dragging"
         ref={setNodeRef}
         style={style}
       >
-        <h2
-          className="structure__column__title"
-          {...attributes}
-          {...listeners}
-        />
+        <h2 className="column__title" {...attributes} {...listeners} />
       </div>
     );
   }
 
   return (
-    <div className="structure__column" ref={setNodeRef} style={style}>
-      <header className="structure__column__header">
+    <div className="column" ref={setNodeRef} style={style}>
+      <header className="column__header">
         <h2
-          className="structure__column__title"
+          className="column__title"
           onClick={handleTitleClick}
           {...attributes}
           {...listeners}
@@ -90,11 +87,10 @@ const TasksColumn = ({
         >
           {!editMode && title}
           {editMode && (
-            <input
+            <Input
               value={title}
-              autoFocus
               onBlur={handleTitleBlur}
-              onKeyDown={handleTitleKeyDown}
+              onEnter={handleOnEnter}
               onChange={handleTitleChange}
               data-testid="column-title-input"
             />

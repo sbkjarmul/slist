@@ -1,0 +1,32 @@
+.task {
+  height: fit-content;
+  min-height: 150px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.task--is-dragging {
+  border: 2px dashed black;
+  background-color: transparent;
+}
+
+.task__text {
+  font-size: 1rem;
+  width: 100%;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.task__action {
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

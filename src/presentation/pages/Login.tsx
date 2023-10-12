@@ -1,6 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import useLogin from "@/presentation/hooks/useLogin";
 import content from "@/presentation/assets/content.json";
+import "./Login.scss";
+import Input, { InputTypeEnum } from "../components/inputs/Input";
+import Button from "../components/button/Button";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -21,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <main className="structure__main">
+    <main className="login__wrapper">
       <section className="right">
         <h1 className="right__title">{content.login.welcomeText}</h1>
         <div className="right__image">
@@ -36,9 +39,9 @@ const Login = () => {
           <h2 className="h1">{content.login.logIn}</h2>
           <div className="login__form__group">
             <label htmlFor="email">{content.login.email}</label>
-            <input
+            <Input
               id="email"
-              type="email"
+              type={InputTypeEnum.EMAIL}
               value={email}
               onChange={handleEmailChange}
               data-testid="email-input"
@@ -48,17 +51,15 @@ const Login = () => {
             <label className="login__form__label" htmlFor="password">
               {content.login.password}
             </label>
-            <input
+            <Input
               id="password"
               value={password}
               onChange={handlePasswordChange}
-              type="password"
+              type={InputTypeEnum.PASSWORD}
               data-testid="password-input"
             />
           </div>
-          <button className="button" onClick={handleLogin}>
-            {content.login.loginButton}
-          </button>
+          <Button onClick={handleLogin}>{content.login.loginButton}</Button>
         </form>
       </section>
     </main>

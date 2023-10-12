@@ -1,0 +1,25 @@
+.column {
+  height: 100%;
+  width: 100%;
+  min-width: 300px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.column--is-dragging {
+  border: 2px dashed black;
+}
+
+.column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem 0 0;
+  height: 3rem;
+}
+
+.column__title {
+  width: 100%;
+}

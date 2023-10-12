@@ -25,6 +25,7 @@ import TaskItem from "@/presentation/components/tasks/TaskItem";
 import { DraggableItemEnum } from "@/enums/shared.enum";
 import { TaskStatus } from "@/enums/task.enum";
 import content from "@/presentation/assets/content.json";
+import "./Tasks.scss";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -158,9 +159,9 @@ const Tasks = () => {
   };
 
   return (
-    <main className="structure__dashboard">
-      <section className="structure__baner">
-        <h1 className="structure__title">{content.tasks.title}</h1>
+    <main className="tasks">
+      <section className="tasks__baner">
+        <h1 className="tasks__title">{content.tasks.title}</h1>
         <button className="button" onClick={createNewTask}>
           <PlusIcon className="button__icon button__icon--white" />
           <span className="button__text" data-testid="add-task-button">
@@ -175,7 +176,7 @@ const Tasks = () => {
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <section className="structure__columns">
+        <section className="tasks__columns">
           <SortableContext items={columnsIds}>
             {columns.map((column) => (
               <TasksColumn

@@ -1,0 +1,33 @@
+.tasks {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.tasks__baner {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tasks__title {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 2vw;
+  padding: 2rem;
+}
+
+.tasks__columns {
+  height: fit-content;
+  min-height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  overflow-x: scroll;
+  padding: 2rem;
+}

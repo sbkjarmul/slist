@@ -1,0 +1,53 @@
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  overflow: hidden;
+
+  .background__shape1 {
+    position: absolute;
+    right: -5%;
+    top: -5%;
+    width: 600px;
+    height: 600px;
+    background: rgba(103, 15, 184, 0.45);
+    border-radius: 100%;
+    z-index: -1;
+  }
+
+  .background__shape2 {
+    position: absolute;
+    right: 60%;
+    top: 10%;
+    width: 600px;
+    height: 600px;
+    background: rgba(234, 0, 199, 0.45);
+    border-radius: 100%;
+    z-index: -1;
+  }
+
+  .background__shape3 {
+    position: absolute;
+    right: 20%;
+    bottom: -5%;
+    width: 500px;
+    height: 500px;
+    background: rgba(144, 144, 144, 0.45);
+    border-radius: 100%;
+    z-index: -1;
+  }
+
+  .background__shape4 {
+    position: absolute;
+    right: 40%;
+    top: -25%;
+    width: 300px;
+    height: 300px;
+    border: 15px solid rgba(255, 6, 143, 0.939);
+    border-radius: 100%;
+    z-index: -1;
+  }
+}
