@@ -1,5 +1,6 @@
 import { InputElement } from "@/presentation/types/shared.types";
 import { setCursorOnEnd } from "@/presentation/utils/shared.utils";
+import { FormEvent } from "react";
 
 describe("setCursorOnEnd", () => {
   it("should set the cursor position to the end of the input value", () => {
@@ -7,8 +8,8 @@ describe("setCursorOnEnd", () => {
     input.value = "Hello, world!";
 
     const event = {
-      currentTarget: input,
-    } as React.FormEvent<HTMLInputElement>;
+      target: input,
+    } as unknown as FormEvent<HTMLInputElement>;
 
     setCursorOnEnd(event);
 

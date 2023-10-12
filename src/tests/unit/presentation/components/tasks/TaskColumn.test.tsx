@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import TasksColumn from "@/presentation/components/tasks/TasksColumn";
 import { column } from "@/tests/unit/presentation/mocks/tasks.mock";
 
@@ -11,7 +11,7 @@ describe("TaskColumn", () => {
   it("renders the column title", () => {
     const tasks = column.tasks;
     const columnTitle = column.title;
-    const { getByText, getAllByTestId } = render(
+    render(
       <TasksColumn
         column={column}
         onDeleteTask={onDeleteTaskSpy}
@@ -19,12 +19,12 @@ describe("TaskColumn", () => {
         onUpdateTask={onUpdateTaskSpy}
       />
     );
-    expect(getByText(columnTitle)).toBeInTheDocument();
-    expect(getAllByTestId("task-item")).toHaveLength(tasks.length);
+    expect(screen.getByText(columnTitle)).toBeInTheDocument();
+    expect(screen.getAllByTestId("task-item")).toHaveLength(tasks.length);
   });
 
   it("renders the column title in edit mode and fire onUpdateColumn", () => {
-    const { getByTestId } = render(
+    render(
       <TasksColumn
         column={column}
         onDeleteTask={onDeleteTaskSpy}
@@ -33,11 +33,11 @@ describe("TaskColumn", () => {
       />
     );
 
-    const title = getByTestId("column-title");
+    const title = screen.getByText(column.title);
 
     fireEvent(title, new MouseEvent("click", { bubbles: true }));
 
-    const input = getByTestId("column-title-input");
+    const input = screen.getByDisplayValue(column.title);
 
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue(column.title);

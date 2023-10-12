@@ -11,7 +11,7 @@ import {
 } from "@/presentation/utils/shared.utils";
 import { TaskBlurEvent } from "@/presentation/types/shared.types";
 import Button, { ButtonTypeEnum } from "../button/Button";
-import Input from "../inputs/Input";
+import Input, { InputTypeEnum } from "../inputs/Input";
 
 interface TaskItemProps {
   task: TaskModel;
@@ -110,7 +110,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
       >
         <div className="task__text">
           <Input
-            type="text"
+            type={InputTypeEnum.TEXT}
             value={title}
             onEnter={handleOnEnter}
             onChange={handleTitleChange}
@@ -119,7 +119,7 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
             ref={titleRef}
           />
           <Input
-            type="multi"
+            type={InputTypeEnum.MULTI}
             value={description}
             ref={descriptionRef}
             placeholder="Task description here"

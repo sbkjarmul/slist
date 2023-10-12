@@ -11,6 +11,8 @@
     "loginButton": "Login",
     "email": "Email",
     "password": "Password",
-    "logout": "Logout"
+    "logout": "Logout",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password"
   }
 }

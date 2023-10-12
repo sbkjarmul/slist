@@ -6,9 +6,13 @@ import content from "@/presentation/assets/content.json";
 describe("Login component", () => {
   it("should render the login form", () => {
     render(<Login />);
-    const emailInput = screen.getByTestId("email-input");
+    const emailInput = screen.getByPlaceholderText(
+      content.login.emailPlaceholder
+    );
     const emailLabel = screen.getByText(content.login.email);
-    const passwordInput = screen.getByTestId("password-input");
+    const passwordInput = screen.getByPlaceholderText(
+      content.login.passwordPlaceholder
+    );
     const passwordLabel = screen.getByText(content.login.password);
     const loginButton = screen.getByRole("button");
     expect(emailInput).toBeInTheDocument();

@@ -19,8 +19,8 @@ export type InputType =
 export interface InputProps {
   value: string;
   onChange: (event: FormEvent) => void;
-  onEnter: (event: KeyboardEvent) => void;
-  onBlur: (event: TaskBlurEvent) => void;
+  onEnter?: (event: KeyboardEvent) => void;
+  onBlur?: (event: TaskBlurEvent) => void;
   onFocus?: (event: FormEvent) => void;
   ref?: React.RefObject<InputElement>;
   type?: InputType;
@@ -30,8 +30,8 @@ export interface InputProps {
 const Input = ({
   value,
   onChange,
-  onEnter,
-  onBlur,
+  onEnter = () => {},
+  onBlur = () => {},
   onFocus,
   ref,
   placeholder,

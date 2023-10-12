@@ -92,7 +92,6 @@ const TasksColumn = ({
               onBlur={handleTitleBlur}
               onEnter={handleOnEnter}
               onChange={handleTitleChange}
-              data-testid="column-title-input"
             />
           )}
         </h2>

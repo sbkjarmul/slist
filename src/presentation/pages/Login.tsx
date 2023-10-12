@@ -1,9 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import useLogin from "@/presentation/hooks/useLogin";
 import content from "@/presentation/assets/content.json";
 import "./Login.scss";
 import Input, { InputTypeEnum } from "../components/inputs/Input";
 import Button from "../components/button/Button";
+import { getValueFromEvent } from "../utils/shared.utils";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,12 +12,12 @@ const Login = () => {
 
   const { login } = useLogin();
 
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+  const handlePasswordChange = (event: FormEvent) => {
+    setPassword(getValueFromEvent(event));
   };
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleEmailChange = (event: FormEvent) => {
+    setEmail(getValueFromEvent(event));
   };
 
   const handleLogin = () => {
@@ -40,11 +41,10 @@ const Login = () => {
           <div className="login__form__group">
             <label htmlFor="email">{content.login.email}</label>
             <Input
-              id="email"
               type={InputTypeEnum.EMAIL}
               value={email}
               onChange={handleEmailChange}
-              data-testid="email-input"
+              placeholder={content.login.emailPlaceholder}
             />
           </div>
           <div className="login__form__group">
@@ -52,11 +52,10 @@ const Login = () => {
               {content.login.password}
             </label>
             <Input
-              id="password"
               value={password}
               onChange={handlePasswordChange}
               type={InputTypeEnum.PASSWORD}
-              data-testid="password-input"
+              placeholder={content.login.passwordPlaceholder}
             />
           </div>
           <Button onClick={handleLogin}>{content.login.loginButton}</Button>
