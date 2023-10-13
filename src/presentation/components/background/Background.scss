@@ -1,3 +1,5 @@
+@import "@/presentation/assets/variables";
+
 .background {
   position: absolute;
   top: 0;
@@ -13,7 +15,7 @@
     top: -5%;
     width: 600px;
     height: 600px;
-    background: rgba(103, 15, 184, 0.45);
+    background: $shape1;
     border-radius: 100%;
     z-index: -1;
   }
@@ -24,7 +26,7 @@
     top: 10%;
     width: 600px;
     height: 600px;
-    background: rgba(234, 0, 199, 0.45);
+    background: $shape2;
     border-radius: 100%;
     z-index: -1;
   }
@@ -35,7 +37,7 @@
     bottom: -5%;
     width: 500px;
     height: 500px;
-    background: rgba(144, 144, 144, 0.45);
+    background: $shape3;
     border-radius: 100%;
     z-index: -1;
   }
@@ -46,7 +48,7 @@
     top: -25%;
     width: 300px;
     height: 300px;
-    border: 15px solid rgba(255, 6, 143, 0.939);
+    border: 15px solid $shape4;
     border-radius: 100%;
     z-index: -1;
   }

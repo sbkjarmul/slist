@@ -1,11 +1,13 @@
+@import "@/presentation/assets/variables";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(34, 34, 34, 0.87);
-  background-color: #ffffff;
+  color: $dark;
+  background-color: $white;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,11 +25,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #670094;
+  background: $purple;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #e500dd;
+  background: $pink;
 }
 
 ::-webkit-scrollbar-horizontal {
