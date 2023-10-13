@@ -116,12 +116,12 @@ const TaskItem = ({ task, onDeleteTask, onUpdateTask }: TaskItemProps) => {
             onChange={handleTitleChange}
             onBlur={onBlurHandler}
             onFocus={setCursorOnEnd}
-            ref={titleRef}
+            innerRef={titleRef}
           />
           <Input
             type={InputTypeEnum.MULTI}
             value={description}
-            ref={descriptionRef}
+            innerRef={descriptionRef}
             placeholder="Task description here"
             onBlur={onBlurHandler}
             onEnter={handleOnEnter}

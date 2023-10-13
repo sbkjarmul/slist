@@ -22,7 +22,7 @@ export interface InputProps {
   onEnter?: (event: KeyboardEvent) => void;
   onBlur?: (event: TaskBlurEvent) => void;
   onFocus?: (event: FormEvent) => void;
-  ref?: React.RefObject<InputElement>;
+  innerRef?: React.RefObject<InputElement>;
   type?: InputType;
   placeholder?: string;
 }
@@ -33,7 +33,7 @@ const Input = ({
   onEnter = () => {},
   onBlur = () => {},
   onFocus,
-  ref,
+  innerRef,
   placeholder,
   type = InputTypeEnum.TEXT,
 }: InputProps) => {
@@ -52,7 +52,7 @@ const Input = ({
         onBlur={onBlur}
         onKeyDown={handleOnEnter}
         onChange={onChange}
-        ref={ref as React.RefObject<HTMLTextAreaElement>}
+        ref={innerRef as React.RefObject<HTMLTextAreaElement>}
         onFocus={onFocus}
       />
     );
@@ -67,8 +67,9 @@ const Input = ({
       onChange={onChange}
       onBlur={onBlur}
       onFocus={onFocus}
-      ref={ref as React.RefObject<HTMLInputElement>}
+      ref={innerRef as React.RefObject<HTMLInputElement>}
       placeholder={placeholder}
+      autoFocus
     />
   );
 };

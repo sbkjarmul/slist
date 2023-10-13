@@ -25,6 +25,9 @@
   font-size: 0.75rem;
   width: 100%;
   height: fit-content;
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
   cursor: pointer;
 
   @media screen and (min-width: 768px) {
