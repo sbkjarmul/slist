@@ -25,6 +25,7 @@ export interface InputProps {
   innerRef?: React.RefObject<InputElement>;
   type?: InputType;
   placeholder?: string;
+  isError?: boolean;
 }
 
 const Input = ({
@@ -36,6 +37,7 @@ const Input = ({
   innerRef,
   placeholder,
   type = InputTypeEnum.TEXT,
+  isError = false,
 }: InputProps) => {
   const handleOnEnter = (event: KeyboardEvent) => {
     if (event.key === KeyboardKeysEnum.ENTER) {
@@ -60,7 +62,7 @@ const Input = ({
 
   return (
     <input
-      className="single"
+      className={`single ${isError ? "single--error" : ""}`}
       type={type}
       value={value}
       onKeyDown={handleOnEnter}

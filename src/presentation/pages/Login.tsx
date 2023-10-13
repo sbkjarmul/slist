@@ -47,12 +47,6 @@ const Login = ({ login }: LoginProps) => {
     <main className="login__wrapper">
       <section className="hero">
         <h1 className="hero__title">{content.login.welcomeText}</h1>
-        <div className="hero__image">
-          <img
-            src="src/presentation/assets/images/todo-render.png"
-            alt={content.login.welcomeImage}
-          />
-        </div>
       </section>
       <section className="login">
         <form className="login__form" onSubmit={handleSubmit}>
@@ -66,6 +60,7 @@ const Login = ({ login }: LoginProps) => {
               value={email}
               onChange={handleEmailChange}
               placeholder={content.login.emailPlaceholder}
+              isError={!!error}
             />
           </div>
           <div className="login__form__group">
@@ -77,6 +72,7 @@ const Login = ({ login }: LoginProps) => {
               onChange={handlePasswordChange}
               type={InputTypeEnum.PASSWORD}
               placeholder={content.login.passwordPlaceholder}
+              isError={!!error}
             />
           </div>
           <div className="login__form__group">
