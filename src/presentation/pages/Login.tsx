@@ -26,9 +26,9 @@ const Login = () => {
 
   return (
     <main className="login__wrapper">
-      <section className="right">
-        <h1 className="right__title">{content.login.welcomeText}</h1>
-        <div className="right__image">
+      <section className="hero">
+        <h1 className="hero__title">{content.login.welcomeText}</h1>
+        <div className="hero__image">
           <img
             src="src/presentation/assets/images/todo-render.png"
             alt={content.login.welcomeImage}
@@ -37,9 +37,11 @@ const Login = () => {
       </section>
       <section className="login">
         <form className="login__form">
-          <h2 className="h1">{content.login.logIn}</h2>
+          <h2>{content.login.logIn}</h2>
           <div className="login__form__group">
-            <label htmlFor="email">{content.login.email}</label>
+            <label className="login__form__label" htmlFor="email">
+              {content.login.email}
+            </label>
             <Input
               type={InputTypeEnum.EMAIL}
               value={email}
@@ -58,7 +60,9 @@ const Login = () => {
               placeholder={content.login.passwordPlaceholder}
             />
           </div>
-          <Button onClick={handleLogin}>{content.login.loginButton}</Button>
+          <div className="login__form__group">
+            <Button onClick={handleLogin}>{content.login.loginButton}</Button>
+          </div>
         </form>
       </section>
     </main>

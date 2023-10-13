@@ -10,15 +10,26 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  padding: 0 1rem;
+
+  @media screen and (min-width: 768px) {
+    justify-content: flex-start;
+    padding: 0;
+  }
 }
 
 .tasks__title {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 900;
   letter-spacing: -1.5px;
-  line-height: 2vw;
-  padding: 2rem;
+  line-height: 1.5vw;
+
+  @media screen and (min-width: 768px) {
+    font-size: 4rem;
+    line-height: 2vw;
+    padding: 2rem;
+  }
 }
 
 .tasks__columns {

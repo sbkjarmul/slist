@@ -18,7 +18,6 @@ function App() {
         </header>
         {!isLogged && <Login />}
         {isLogged && <Tasks />}
-        <footer className="structure__footer"></footer>
       </div>
       <Background />
     </div>
