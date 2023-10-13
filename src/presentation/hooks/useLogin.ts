@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import authenticationUsecase from "@/usecases/authentication.usecase";
 import { AuthenticationParams } from "@/models/auth.model";
+import authenticationUsecase from "@/usecases/authentication.usecase";
 import storageUsecase from "@/usecases/storage.usecase";
 
 const tokenKey = "token";

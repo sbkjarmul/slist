@@ -7,7 +7,7 @@ import Button from "./presentation/components/button/Button";
 import "./App.scss";
 
 function App() {
-  const { isLogged, logout } = useLogin();
+  const { isLogged, logout, login } = useLogin();
 
   return (
     <div className="app">
@@ -16,7 +16,7 @@ function App() {
           <h1 className="structure__header__logo">{content.logo}</h1>
           {isLogged && <Button onClick={logout}>{content.login.logout}</Button>}
         </header>
-        {!isLogged && <Login />}
+        {!isLogged && <Login login={login} />}
         {isLogged && <Tasks />}
       </div>
       <Background />

@@ -8,7 +8,7 @@ export enum ButtonTypeEnum {
 type ButtonType = "normal" | "transparent";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
   type?: ButtonType;
 }

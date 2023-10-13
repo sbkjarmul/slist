@@ -1,16 +1,21 @@
 import { FormEvent, useState } from "react";
-import useLogin from "@/presentation/hooks/useLogin";
+import { ValidationError } from "yup";
+import { AuthenticationParams } from "@/models/auth.model";
 import content from "@/presentation/assets/content.json";
+import Input, { InputTypeEnum } from "@/presentation/components/inputs/Input";
+import Button from "@/presentation/components/button/Button";
+import { getValueFromEvent } from "@/presentation//utils/shared.utils";
+import { authSchema } from "@/presentation//validations/auth.validation";
 import "./Login.scss";
-import Input, { InputTypeEnum } from "../components/inputs/Input";
-import Button from "../components/button/Button";
-import { getValueFromEvent } from "../utils/shared.utils";
 
-const Login = () => {
+interface LoginProps {
+  login: ({ email, password }: AuthenticationParams) => Promise<void>;
+}
+
+const Login = ({ login }: LoginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const { login } = useLogin();
+  const [error, setError] = useState<string>("");
 
   const handlePasswordChange = (event: FormEvent) => {
     setPassword(getValueFromEvent(event));
@@ -20,8 +25,22 @@ const Login = () => {
     setEmail(getValueFromEvent(event));
   };
 
-  const handleLogin = () => {
-    login({ email, password });
+  const handleLogin = async () => {
+    await login({ email, password });
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    authSchema
+      .validate({ email, password })
+      .then(async () => {
+        await handleLogin();
+        setError("");
+      })
+      .catch((error: ValidationError) => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -36,14 +55,14 @@ const Login = () => {
         </div>
       </section>
       <section className="login">
-        <form className="login__form">
+        <form className="login__form" onSubmit={handleSubmit}>
           <h2>{content.login.logIn}</h2>
           <div className="login__form__group">
             <label className="login__form__label" htmlFor="email">
               {content.login.email}
             </label>
             <Input
-              type={InputTypeEnum.EMAIL}
+              type={InputTypeEnum.TEXT}
               value={email}
               onChange={handleEmailChange}
               placeholder={content.login.emailPlaceholder}
@@ -61,8 +80,9 @@ const Login = () => {
             />
           </div>
           <div className="login__form__group">
-            <Button onClick={handleLogin}>{content.login.loginButton}</Button>
+            <Button>{content.login.loginButton}</Button>
           </div>
+          <p className="login__form__error">{error}</p>
         </form>
       </section>
     </main>

@@ -1,7 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import TasksColumn from "@/presentation/components/tasks/TasksColumn";
-import { TaskModel, ColumnModel } from "@/models/task.model";
-import taskUseCase from "@/usecases/task.usecase";
 import {
   DndContext,
   DragEndEvent,
@@ -13,6 +10,11 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import TasksColumn from "@/presentation/components/tasks/TasksColumn";
+import { DraggableItemEnum } from "@/enums/shared.enum";
+import { TaskStatus } from "@/enums/task.enum";
+import { TaskModel, ColumnModel } from "@/models/task.model";
+import taskUseCase from "@/usecases/task.usecase";
 import PlusIcon from "@/presentation/icons/PlusIcon";
 import {
   generateColumns,
@@ -22,8 +24,6 @@ import {
 } from "@/presentation/utils/task.utils";
 import { createPortal } from "react-dom";
 import TaskItem from "@/presentation/components/tasks/TaskItem";
-import { DraggableItemEnum } from "@/enums/shared.enum";
-import { TaskStatus } from "@/enums/task.enum";
 import content from "@/presentation/assets/content.json";
 import "./Tasks.scss";
 

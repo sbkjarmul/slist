@@ -1,6 +1,6 @@
+import { KeyboardEvent, FormEvent } from "react";
 import { KeyboardKeysEnum } from "@/enums/shared.enum";
 import { InputElement, TaskBlurEvent } from "@/presentation/types/shared.types";
-import { KeyboardEvent, FormEvent } from "react";
 import "./Input.scss";
 
 export enum InputTypeEnum {

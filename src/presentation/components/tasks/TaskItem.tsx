@@ -1,9 +1,9 @@
 import { useState, KeyboardEvent, FormEvent, useRef } from "react";
-import TrashIcon from "@/presentation/icons/TrashIcon";
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
 import { DraggableItemEnum, KeyboardKeysEnum } from "@/enums/shared.enum";
 import { TaskModel } from "@/models/task.model";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import TrashIcon from "@/presentation/icons/TrashIcon";
 import "./TaskItem.scss";
 import {
   getValueFromEvent,

@@ -4,8 +4,10 @@ import "@testing-library/jest-dom";
 import content from "@/presentation/assets/content.json";
 
 describe("Login component", () => {
+  const mockLogin = jest.fn();
+
   it("should render the login form", () => {
-    render(<Login />);
+    render(<Login login={mockLogin} />);
     const emailInput = screen.getByPlaceholderText(
       content.login.emailPlaceholder
     );
@@ -23,7 +25,7 @@ describe("Login component", () => {
   });
 
   it("should render the welcome text", () => {
-    render(<Login />);
+    render(<Login login={mockLogin} />);
     const welcomeText = screen.getByText(content.login.welcomeText);
     expect(welcomeText).toBeInTheDocument();
   });

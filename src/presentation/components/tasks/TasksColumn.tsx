@@ -1,12 +1,12 @@
+import { useState, useMemo, FormEvent } from "react";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import TaskItem from "./TaskItem";
 import { CSS } from "@dnd-kit/utilities";
 import { ColumnModel, TaskModel } from "@/models/task.model";
-import { useState, useMemo, FormEvent } from "react";
-import { DraggableItemEnum } from "@/enums/shared.enum";
 import { TaskStatus } from "@/enums/task.enum";
-import Input from "../inputs/Input";
+import { DraggableItemEnum } from "@/enums/shared.enum";
 import { getValueFromEvent } from "@/presentation/utils/shared.utils";
+import Input from "../inputs/Input";
+import TaskItem from "./TaskItem";
 import "./TasksColumn.scss";
 
 interface TasksColumnProps {
